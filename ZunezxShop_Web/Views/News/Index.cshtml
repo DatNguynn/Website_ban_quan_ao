@@ -1,0 +1,112 @@
+﻿@model IEnumerable<ZunezxShop_Web.Models.EF.Tb_News>
+@*@using PagedList.Mvc;*@
+@{
+    ViewBag.Title = "Tin tức";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+
+<style>
+    .news_container {
+        margin-top: 180px
+    }
+
+    .row-item-new {
+        margin-bottom: 20px;
+    }
+
+    .title-news {
+        font-size: 24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<div class="container news_container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title-news">Tin tức</h1>
+        </div>
+    </div>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="row row-item-new">
+                <div class="col-md-3">
+                    <div class="img-box">
+                        <a href="/@item.Alias-n@(item.Id)" title="@item.Title"><img src="@item.Image" alt="@item.Title" /></a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="content-box">
+                        <h3><a href="/@item.Alias-n@(item.Id)" title="@item.Title" style="color:#000000">@item.Title</a></h3>
+                        <div class="description-box">
+                            @item.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @*<div class="row">
+            <div class="col-6"></div>
+            <div class="col-6" style="text-align:right">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+        </div>*@
+
+    @*<div class="pages d-flex flex-row align-items-center">
+        <div class="page_current">
+            <span>1</span>
+            <ul class="page_selection">
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+            </ul>
+        </div>
+        <div class="page_total"><span>of</span> 3</div>
+        <div id="next_page_1" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
+    </div>*@
+
+    @* page *@
+<div class="pages d-flex flex-row align-items-center">
+    @*<div style="display:flex; column-gap: 10px">
+            <a href="@Url.Action("Index", "News", new {  page = 1})" class="btn btn-info">Trang đầu</a>
+            <a href="@Url.Action("Index", "News", new {  page = Convert.ToInt32(ViewBag.currentPage) + 1})" class="btn btn-info">Trang tiếp</a>
+            <a href="@Url.Action("Index", "News", new {  page = Convert.ToInt32(ViewBag.totalPages)})" class="btn btn-info">Trang cuối</a>
+        </div>*@
+    <div class="page_current" style="background-color:#fe4c50">
+        <span style="color: #ffffff">@ViewBag.currentPage</span>
+        <ul class="page_selection">
+            @*<span style="margin-top: 5px; color: red; font-size: large; font-weight: 600 ">Trang: </span>*@
+            @{
+                for (int i = 1; i <= Convert.ToInt32(ViewBag.totalPages); i++)
+                {
+                    if (i == Convert.ToInt32(ViewBag.currentPage))
+                    {
+                        <li><a>@i</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Index", "News", new {  page = i})">@i</a></li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+    <div class="page_total"><span>of</span> @ViewBag.totalPages</div>
+    @if (Convert.ToInt32(ViewBag.currentPage) < Convert.ToInt32(ViewBag.totalPages))
+    {
+        <div id="next_page_1" class="page_next"><a href="@Url.Action("Index", "News", new {  page = Convert.ToInt32(ViewBag.currentPage)+1})"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
+    }
+</div>
+</div>

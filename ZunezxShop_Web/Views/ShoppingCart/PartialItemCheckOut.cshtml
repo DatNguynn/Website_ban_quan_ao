@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ZunezxShop_Web.Models.ShoppingCartItem>
+@using ZunezxShop_Web.Common
+<div style="border: 1px solid">
+    <table class="table">
+        @if (Model != null && Model.Any())
+        {
+            var tongtien = decimal.Zero;
+            foreach (var item in Model)
+            {
+                tongtien += item.TotalPrice;
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@Common.FormatNumber(item.Price, 0)</td>
+                </tr>
+            }
+                <tr>
+                    <th>Tổng hóa đơn:</th>
+                    <th></th>
+                    <th>@Common.FormatNumber(tongtien, 0)</th>
+                </tr>
+        }
+    </table>
+</div>
+
